@@ -26,6 +26,20 @@ public class MainActivity extends Activity {
         fm = getFragmentManager();
         browserFragments = new ArrayList<>();
         count = 0;
+        String url = "";
+        try {
+            url = getIntent().getData().toString();
+        } catch (Exception ex) {
+
+        }
+
+        //if an intent started the activity, URL will not be empty
+        if(!url.equals("")) {
+            WebFragment tab = WebFragment.newInstance(url);
+            browserFragments.add(tab);
+            count++;
+            loadTab(R.id.web, tab);
+        }
     }
 
     @Override
@@ -40,7 +54,7 @@ public class MainActivity extends Activity {
 
         switch(id){
             case (R.id.action_new_tab):
-                WebFragment tab = WebFragment.newInstance();
+                WebFragment tab = WebFragment.newInstance(null);
                 browserFragments.add(tab);
                 count++;
                 loadTab(R.id.web, tab);
@@ -67,6 +81,5 @@ public class MainActivity extends Activity {
         fragTran.replace(frame, frag);
 
         fragTran.commit();
-        fm.executePendingTransactions();
     }
 }

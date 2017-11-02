@@ -15,10 +15,15 @@ public class WebFragment extends Fragment {
     private Button execute;
     private WebView browser;
 
-    public static WebFragment newInstance() {
+    private String url;
+    public static WebFragment newInstance(String url) {
         WebFragment fragment = new WebFragment();
+        Bundle args = new Bundle();
+        args.putString("url", url);
+        fragment.setArguments(args);
         return fragment;
     }
+
 
     public WebFragment() {
         // Required empty public constructor
@@ -38,15 +43,21 @@ public class WebFragment extends Fragment {
         urlInput = (EditText) view.findViewById(R.id.url);
         execute = (Button) view.findViewById(R.id.go);
         browser = (WebView) view.findViewById(R.id.browser);
+        browser.getSettings().setJavaScriptEnabled(true);
+        browser.setWebViewClient(new WebViewController());
+
+        if (getArguments().getString("url", null) != null) {
+            url = getArguments().getString("url", null);
+            urlInput.setText(url);
+        }
+        if(url != null) {
+            browser.loadUrl(url);
+        }
 
         execute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = urlInput.getText().toString();
-
-
-                browser.getSettings().setJavaScriptEnabled(true);
-                browser.setWebViewClient(new WebViewController());
+                url = urlInput.getText().toString();
                 browser.loadUrl(url);
             }
         });
