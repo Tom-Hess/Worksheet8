@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     private FrameLayout web;
-    private ArrayList<WebFragment> browserFragments;
-    private int count;
+    private ArrayList<WebFragment> browserFragments = new ArrayList<>();
+    private int count = 0;
     FragmentManager fm;
 
     @Override
@@ -24,8 +24,6 @@ public class MainActivity extends Activity {
 
         web = (FrameLayout) findViewById(R.id.web);
         fm = getFragmentManager();
-        browserFragments = new ArrayList<>();
-        count = 0;
         String url = "";
         try {
             url = getIntent().getData().toString();
